@@ -1,14 +1,21 @@
-module.exports = class LanguageProvider{
-	static langData = new Object;
+let defaultLangData = require("./framework.lang.json");
 
-	static load(file){
-		let tempLangData = require(file);
+class LanguageProvider{
+	constructor(){
+		this.langData = {};
+		this.load(defaultLangData);
+	}
+
+	load(data){
+		let tempLangData = data;
 		for(let langKey of Object.keys(tempLangData)){
 			this.langData[langKey] = tempLangData[langKey];
 		}
 	}
 
-	static translate(attr, ...agrs){
-		
+	getLanguageData(){
+		return this.langData;
 	}
 }
+
+module.exports = new LanguageProvider;

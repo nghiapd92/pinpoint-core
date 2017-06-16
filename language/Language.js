@@ -1,19 +1,16 @@
-class Language{
-	static langData = new Object;
+let LanguageProvider = require("./LanguageProvider");
 
-	static load(file){
-		let tempLangData = require(file);
-		
-		for(let langKey of Object.keys(tempLangData)){
-			this.langData[langKey] = tempLangData[langKey];
-		}
-	}
+module.exports = (attr, ...args) => {
 
-	static translate(attr, ...agrs){
-		
-	}
+	langData = LanguageProvider.getLanguageData();
+  let str = langData[attr];
+
+  if(args.length > 0){
+    for(let i = 1; i <= args.length; i++){
+      let arg = args[i-1];
+      str = str.replace(new RegExp("\\$\\{"+ i +"\\}", "g"), arg);
+    }
+  }
+
+  return str;
 }
-
-Language.load("./framework.lang.json");
-
-module.exports = Language;
